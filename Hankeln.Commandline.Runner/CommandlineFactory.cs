@@ -13,9 +13,9 @@ namespace Hankeln.Commandline.Runner
 
     private CommandlineFactory(string file)
     {
-      Arguments = [];
+      Arguments =  new List<string>();
       FileName = file;
-      Options = new();
+      Options = new CommandlineOptions();
       Logger = NoopCommandlineLogging.Instance;
     }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Text;
 
 namespace Hankeln.Commandline.Runner
@@ -25,5 +26,10 @@ namespace Hankeln.Commandline.Runner
     /// Std-Out and Err-Out Encoding, if not set, defaults to UTF8
     /// </summary>
     public Encoding? Encoding { get; set; }
+
+    /// <summary>
+    /// The Working-Directory to be set for the Process
+    /// </summary>
+    public DirectoryInfo? WorkingDirectory { get; set; }
   }
 }

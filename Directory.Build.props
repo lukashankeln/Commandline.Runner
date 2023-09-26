@@ -5,6 +5,14 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <Authors>Lukas Hankeln</Authors>
+        <Description>
+            Easy to use library to work with Process.Start in .Net
+        </Description>
+        <RepositoryUrl>https://github.com/lukashankeln/Commandline.Runner</RepositoryUrl>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    </PropertyGroup>
     <ItemGroup>
         <PackageReference Include="GitVersion.MsBuild" Version="5.12.0">
             <PrivateAssets>all</PrivateAssets>

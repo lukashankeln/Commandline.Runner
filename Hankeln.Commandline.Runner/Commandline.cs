@@ -33,6 +33,10 @@ namespace Hankeln.Commandline.Runner
         RedirectStandardError = Options.WriteLog,
         UseShellExecute = false // needs to be false for std-redirect
       };
+
+      if (Options.WorkingDirectory is not null)
+        info.WorkingDirectory = Options.WorkingDirectory.FullName;
+
       if (Options.WriteLog)
       {
         info.StandardOutputEncoding = Options.Encoding ?? Encoding.UTF8;

@@ -2,17 +2,28 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using static Hankeln.Commandline.Runner.CommandlineResult;
 
 namespace Hankeln.Commandline.Runner
 {
+  /// <summary>
+  /// An Object defining and executing the Commandline
+  /// </summary>
   public sealed class Commandline
   {
+    /// <summary> The File to be executed </summary>
     public string FileName { get; }
+
+    /// <summary> The Arguments to be given to the process on start </summary>
     public List<string> Arguments { get; }
+
+    /// <summary> Options defining the behavior for the commandline </summary>
     public CommandlineOptions Options { get; }
-    public ICommandlineLogging Logger { get; private set; }
+
+    /// <summary> The logger used to log the process </summary>
+    public ICommandlineLogging Logger { get; }
 
     internal Commandline(string fileName, List<string> arguments, CommandlineOptions options, ICommandlineLogging logger)
     {
@@ -22,7 +33,7 @@ namespace Hankeln.Commandline.Runner
       Logger = logger;
     }
 
-    private async Task<CommandlineResult> RunInternAsync()
+    private async Task<CommandlineResult> RunInternAsync(CancellationToken cancellationToken)
     {
       var args = Arguments != null ? string.Join(" ", Arguments) : "";
       var info = new ProcessStartInfo
@@ -89,18 +100,18 @@ namespace Hankeln.Commandline.Runner
 
       while (!process.HasExited)
       {
-        await Task.Delay(500);
-
-        if (Options.Timeout.HasValue && sw.Elapsed > Options.Timeout)
+        if (cancellationToken.IsCancellationRequested || (Options.Timeout.HasValue && sw.Elapsed > Options.Timeout))
         {
           process.Kill();
-          Logger.Message($"[{FileName}] -> killed by Timeout");
+          Logger.Message($"[{FileName}] -> killed");
           return new CommandlineResult()
           {
             State = CommandlineState.Timeout,
             ExitCode = process.ExitCode
           };
         }
+
+        await Task.Delay(500);
       }
 
       Logger.Message($"[{FileName}] -> Exitcode: {process.ExitCode}");
@@ -112,11 +123,19 @@ namespace Hankeln.Commandline.Runner
 
     }
 
-    public async Task<CommandlineResult> RunAsync()
+    /// <inheritdoc cref="RunAsync(CancellationToken)"/>
+    public Task<CommandlineResult> RunAsync() => RunAsync(CancellationToken.None);
+
+    /// <summary>
+    /// Executes the given Commandline
+    /// </summary>
+    /// <param name="cancellationToken">Token to cancel the running process</param>
+    /// <returns>An result object for the running Commandline</returns>
+    public async Task<CommandlineResult> RunAsync(CancellationToken cancellationToken)
     {
       try
       {
-        return await RunInternAsync();
+        return await RunInternAsync(cancellationToken);
       }
       catch (System.Exception e)
       {

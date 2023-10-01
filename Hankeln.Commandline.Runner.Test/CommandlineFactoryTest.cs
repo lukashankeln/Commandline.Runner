@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xunit;
 
 namespace Hankeln.Commandline.Runner.Test
@@ -14,9 +10,9 @@ namespace Hankeln.Commandline.Runner.Test
     {
       var cmd = CommandlineFactory.Create("test").Build();
 
-      Assert.Multiple(() => Assert.NotNull(cmd), 
-                      () => Assert.Equal("test", cmd.FileName), 
-                      () => Assert.Empty(cmd.Arguments), 
+      Assert.Multiple(() => Assert.NotNull(cmd),
+                      () => Assert.Equal("test", cmd.FileName),
+                      () => Assert.Empty(cmd.Arguments),
                       () => Assert.NotNull(cmd.Options),
                       () => Assert.Null(cmd.Options.Timeout),
                       () => Assert.False(cmd.Options.WaitForExit),
@@ -45,7 +41,7 @@ namespace Hankeln.Commandline.Runner.Test
     public void Should_Build_Commandline_With_Arguments()
     {
       var cmd = CommandlineFactory.Create("test").AddArgument("--foo").Build();
-      
+
       Assert.Multiple(() => Assert.NotNull(cmd),
                       () => Assert.Equal("test", cmd.FileName),
                       () => Assert.Single(cmd.Arguments),

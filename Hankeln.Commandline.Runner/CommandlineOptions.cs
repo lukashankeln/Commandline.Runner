@@ -4,6 +4,7 @@ using System.Text;
 
 namespace Hankeln.Commandline.Runner
 {
+  /// <summary> Defining Options to change the behavior of the <see cref="Commandline"/> </summary>
   public sealed class CommandlineOptions
   {
     /// <summary>

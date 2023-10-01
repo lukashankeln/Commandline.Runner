@@ -4,24 +4,44 @@ using System.Collections.Generic;
 
 namespace Hankeln.Commandline.Runner
 {
+  /// <summary>
+  /// A Factory to easily create a new <see cref="Commandline"/>
+  /// </summary>
   public class CommandlineFactory
   {
+    /// <summary> The arguments to be set in <see cref="Commandline.Arguments"/> </summary>
     protected List<string> Arguments { get; }
+
+    /// <summary> The file to be set in <see cref="Commandline.FileName"/> </summary>
     protected string FileName { get; }
+
+    /// <summary> The options to be set in <see cref="Commandline.Options"/> </summary>
     protected CommandlineOptions Options { get; }
+
+    /// <summary> The logger to be set in <see cref="Commandline.Logger"/> </summary>
     protected ICommandlineLogging Logger { get; private set; }
 
     private CommandlineFactory(string file)
     {
-      Arguments =  new List<string>();
+      Arguments = new List<string>();
       FileName = file;
       Options = new CommandlineOptions();
       Logger = NoopCommandlineLogging.Instance;
     }
 
+    /// <summary>
+    /// Creates an new factory to create a new Commandline for the given file
+    /// </summary>
+    /// <param name="file">The file to be executed by the commandline</param>
+    /// <returns>A new factory for creating the commandline</returns>
     public static CommandlineFactory Create(string file) => new(file);
 
 
+    /// <summary>
+    /// Adds a new argument to the list of arguments for the process
+    /// </summary>
+    /// <param name="argument">The argument given to the process</param>
+    /// <returns>This factory, for fluent use</returns>
     public CommandlineFactory AddArgument(string argument)
     {
       Arguments.Add(argument);
@@ -32,7 +52,7 @@ namespace Hankeln.Commandline.Runner
     /// Sets the logger to be used
     /// </summary>
     /// <param name="logger">The logger to be used</param>
-    /// <returns>This CommandlineFactory</returns>
+    /// <returns>This factory, for fluent use</returns>
     /// <remarks>This sets <seealso cref="CommandlineOptions.WriteLog"/> to <![CDATA[true]]></remarks>
     public CommandlineFactory WithLogger(ICommandlineLogging logger)
     {
@@ -45,7 +65,7 @@ namespace Hankeln.Commandline.Runner
     /// This sets the timeout to be used
     /// </summary>
     /// <param name="timeout">The timeout to be used</param>
-    /// <returns>This CommandlineFactory</returns>
+    /// <returns>This factory, for fluent use</returns>
     /// <remarks>This sets <seealso cref="CommandlineOptions.Timeout"/> to the timeout specified
     /// and also <seealso cref="CommandlineOptions.WaitForExit"/> to <![CDATA[true]]></remarks>
     public CommandlineFactory WithTimeout(TimeSpan timeout)

@@ -11,4 +11,4 @@ on:
 
 jobs:
   build:
-    uses: kube-the-home/github-actions/.github/workflows/dotnet-build-test.yaml@74545a04c66f8dc2641ef3e13f1578330b384115 # v1.0.2
+    uses: kube-the-home/github-actions/.github/workflows/dotnet-build-test.yaml@7c879724555fc18be9f0d0a78b3c75283a95d406 # v1.2.1

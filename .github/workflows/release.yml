@@ -6,6 +6,6 @@ on:
 
 jobs:
   release:
-    uses: kube-the-home/github-actions/.github/workflows/dotnet-nuget-release.yaml@5b44e7a71b25dff53182e911f7708c62ac20fd3a # v1.2.0
+    uses: kube-the-home/github-actions/.github/workflows/dotnet-nuget-release.yaml@7c879724555fc18be9f0d0a78b3c75283a95d406 # v1.2.1
     secrets:
       nuget_api_key: ${{ secrets.nuget_api_key }}
